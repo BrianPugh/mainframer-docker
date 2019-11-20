@@ -21,7 +21,7 @@ RUN dpkg --add-architecture i386 && \
   python \
   python3 \
   #build rust
-  && curl -sf -L https://static.rust-lang.org/rustup.sh | sh
+  && curl https://sh.rustup.rs -sSf | sh -s -- -y
 
 # Copy install tools
 COPY tools /opt/tools
