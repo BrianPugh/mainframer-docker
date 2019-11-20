@@ -1,4 +1,4 @@
-FROM ubuntu:16.04
+FROM ubuntu:18.04
 
 # Install Deps
 RUN dpkg --add-architecture i386 && \
@@ -8,15 +8,17 @@ RUN dpkg --add-architecture i386 && \
   #android
   libc6-i386 lib32stdc++6 lib32gcc1 lib32ncurses5 lib32z1  \
   #build go
-  golang
+  golang \
   #build clang
-  clang
+  clang \
   #build GCC
-  build-essential
+  build-essential \
   #build buck
-  ant python && \
+  ant \
+  python \
+  python3 \
   #build rust
-  curl -sf -L https://static.rust-lang.org/rustup.sh | sh
+  && curl -sf -L https://static.rust-lang.org/rustup.sh | sh
 
 #RUN dpkg --add-architecture i386 && apt-get update && apt-get install -y --force-yes expect git wget libc6-i386 lib32stdc++6 lib32gcc1 lib32ncurses5 lib32z1 python rsync curl libqt5widgets5 && apt-get clean && rm -fr /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
