@@ -4,9 +4,10 @@ ENV DEBIAN_FRONTEND="noninteractive"
 
 # Install Deps
 RUN dpkg --add-architecture i386 && \
-  apt-get update --quiet && \
+  apt update --quiet && \
   #essentials
-  apt-get --assume-yes --quiet install expect git wget openjdk-8-jdk rsync unzip git curl \
+  apt install --quiet -y \
+  expect git wget openjdk-8-jdk rsync unzip git curl \
   #android
   libc6-i386 lib32stdc++6 lib32gcc1 lib32ncurses5 lib32z1  \
   #build go
@@ -21,8 +22,6 @@ RUN dpkg --add-architecture i386 && \
   python3 \
   #build rust
   && curl -sf -L https://static.rust-lang.org/rustup.sh | sh
-
-#RUN dpkg --add-architecture i386 && apt-get update && apt-get install -y --force-yes expect git wget libc6-i386 lib32stdc++6 lib32gcc1 lib32ncurses5 lib32z1 python rsync curl libqt5widgets5 && apt-get clean && rm -fr /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Copy install tools
 COPY tools /opt/tools
@@ -52,14 +51,11 @@ RUN eval $ANDROID_SDK_INSTALLER '"tools"' && \
   eval $ANDROID_SDK_INSTALLER '"extras;m2repository;com;android;support;constraint;constraint-layout-solver;1.0.2"'
 
 # Setup ssh server
-RUN apt-get update && \
-  apt-get install -y openssh-server && \
+RUN apt update && \
+  apt install -y openssh-server && \
   mkdir /var/run/sshd && \
   echo 'root:root' |chpasswd && \
   sed -ri 's/^PermitRootLogin\s+.*/PermitRootLogin yes/' /etc/ssh/sshd_config && \
   sed -ri 's/UsePAM yes/#UsePAM yes/g' /etc/ssh/sshd_config
 EXPOSE 22
 CMD    ["/usr/sbin/sshd", "-D"]
-
-# Cleaning
-RUN apt-get clean
