@@ -1,5 +1,7 @@
 FROM ubuntu:18.04
 
+ENV DEBIAN_FRONTEND="noninteractive"
+
 # Install Deps
 RUN dpkg --add-architecture i386 && \
   apt-get update --quiet && \
